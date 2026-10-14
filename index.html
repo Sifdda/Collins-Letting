@@ -1,0 +1,240 @@
+import com.sun.net.httpserver.HttpServer;
+import java.net.InetSocketAddress;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
+
+public class AmazinggraceWebsite {
+    public static void main(String[] args) throws Exception {
+        HttpServer server = HttpServer.create(
+            new InetSocketAddress(8080), 0);
+
+        server.createContext("/", exchange -> {
+            String html = """
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                  <meta charset="UTF-8">
+                  <meta name="viewport"
+                        content="width=device-width, initial-scale=1.0">
+                  <title>Amazing Grace | Work with Christ</title>
+                  <style>
+                    * { box-sizing: border-box; }
+                    body {
+                      margin: 0;
+                      font-family: Arial, sans-serif;
+                      color: #102b48;
+                      background: #f4f8fc;
+                    }
+                    header {
+                      background: #08233e;
+                      color: white;
+                      padding: 22px 7%;
+                      display: flex;
+                      justify-content: space-between;
+                      align-items: center;
+                      flex-wrap: wrap;
+                      gap: 15px;
+                    }
+                    header h2 { margin: 0; color: #f1c56b; }
+                    header p { margin: 5px 0 0; }
+                    nav a {
+                      color: white;
+                      text-decoration: none;
+                      margin: 8px;
+                    }
+                    .hero {
+                      text-align: center;
+                      padding: 85px 20px;
+                      background: linear-gradient(135deg,
+                        #dcecff, #fff5df);
+                    }
+                    .hero h1 {
+                      font-size: clamp(40px, 7vw, 72px);
+                      margin: 0;
+                    }
+                    .hero h2 {
+                      font-size: 28px;
+                      color: #b78322;
+                    }
+                    .hero p {
+                      font-size: 19px;
+                      line-height: 1.7;
+                    }
+                    .button {
+                      display: inline-block;
+                      background: #103e67;
+                      color: white;
+                      padding: 14px 24px;
+                      margin: 10px;
+                      border-radius: 30px;
+                      text-decoration: none;
+                    }
+                    section {
+                      padding: 55px 8%;
+                      text-align: center;
+                    }
+                    .about {
+                      background: white;
+                      line-height: 1.8;
+                    }
+                    .videos {
+                      display: grid;
+                      grid-template-columns:
+                        repeat(auto-fit, minmax(280px, 1fr));
+                      gap: 24px;
+                      margin-top: 30px;
+                    }
+                    .video {
+                      background: white;
+                      padding: 15px;
+                      border-radius: 15px;
+                      box-shadow: 0 4px 15px #00000012;
+                    }
+                    iframe {
+                      width: 100%;
+                      aspect-ratio: 16 / 9;
+                      border: 0;
+                      border-radius: 10px;
+                    }
+                    footer {
+                      background: #08233e;
+                      color: white;
+                      text-align: center;
+                      padding: 28px 15px;
+                      line-height: 1.8;
+                    }
+                    a { overflow-wrap: anywhere; }
+                  </style>
+                </head>
+                <body>
+                  <header>
+                    <div>
+                      <h2>Amazing Grace ✝</h2>
+                      <p>Work with Christ</p>
+                    </div>
+                    <nav>
+                      <a href="#home">Home</a>
+                      <a href="#about">About</a>
+                      <a href="#music">Music</a>
+                      <a href="#contact">Contact</a>
+                    </nav>
+                  </header>
+
+                  <section class="hero" id="home">
+                    <h1>Amazing Grace</h1>
+                    <h2>Work with Christ</h2>
+                    <p>
+                      Welcome to my gospel music ministry.<br>
+                      Sharing the message of faith, hope and love
+                      through music.
+                    </p>
+                    <a class="button" href="#music">
+                      Watch My Videos
+                    </a>
+                    <a class="button" href="#contact">
+                      Contact Me
+                    </a>
+                  </section>
+
+                  <section class="about" id="about">
+                    <h2>About the Artist</h2>
+                    <h3>Collins Letting</h3>
+                    <p>
+                      I am a gospel artist dedicated to sharing
+                      God's message through gospel music.
+                      My mission is to inspire people, encourage
+                      faith and spread hope through Christ.
+                    </p>
+                    <p><em>
+                      "For we walk by faith, not by sight."
+                      — 2 Corinthians 5:7
+                    </em></p>
+                  </section>
+
+                  <section id="music">
+                    <h2>My Gospel Music</h2>
+                    <p>Watch, listen and be blessed!</p>
+                    <div class="videos">
+                      <div class="video">
+                        <h3>My Gospel Video 1</h3>
+                        <iframe
+                          src="https://www.youtube.com/embed/C0zfxArfofc"
+                          title="Amazing Grace gospel video 1"
+                          loading="lazy"
+                          allowfullscreen>
+                        </iframe>
+                        <p>
+                          <a href="https://youtu.be/C0zfxArfofc"
+                             target="_blank" rel="noopener">
+                            Watch on YouTube
+                          </a>
+                        </p>
+                      </div>
+                      <div class="video">
+                        <h3>My Gospel Video 2</h3>
+                        <iframe
+                          src="https://www.youtube.com/embed/11G1PGyao5o"
+                          title="Amazing Grace gospel video 2"
+                          loading="lazy"
+                          allowfullscreen>
+                        </iframe>
+                        <p>
+                          <a href="https://youtu.be/11G1PGyao5o"
+                             target="_blank" rel="noopener">
+                            Watch on YouTube
+                          </a>
+                        </p>
+                      </div>
+                    </div>
+                  </section>
+
+                  <section class="about" id="contact">
+                    <h2>Contact Collins Letting</h2>
+                    <p>Location: Kapsabet, Kenya</p>
+                    <p>
+                      Phone:
+                      <a href="tel:0790928450">0790928450</a>
+                    </p>
+                    <p>
+                      Email:
+                      <a href="mailto:collinsletting48@gmail.com">
+                        collinsletting48@gmail.com
+                      </a>
+                    </p>
+                    <p>
+                      Facebook name:
+                      Sifa Sifda Davsi / Wasivna Nasivwa
+                    </p>
+                    <p>
+                      <a class="button"
+                         href="mailto:collinsletting48@gmail.com">
+                        Send Me an Email
+                      </a>
+                    </p>
+                  </section>
+
+                  <footer>
+                    <h2>Amazing Grace</h2>
+                    <p>Work with Christ | Gospel Artist</p>
+                    <p>Kapsabet, Kenya</p>
+                    <p>© 2026 Amazing Grace. All rights reserved.</p>
+                  </footer>
+                </body>
+                </html>
+                """;
+
+            byte[] page = html.getBytes(StandardCharsets.UTF_8);
+            exchange.getResponseHeaders().set(
+                "Content-Type", "text/html; charset=UTF-8");
+            exchange.sendResponseHeaders(200, page.length);
+
+            try (OutputStream out = exchange.getResponseBody()) {
+                out.write(page);
+            }
+        });
+
+        server.start();
+        System.out.println(
+            "Amazing Grace website running at http://localhost:8080");
+    }
+}
