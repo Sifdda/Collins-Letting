@@ -208,5 +208,37 @@
                     <p>Kapsabet, Kenya</p>
                     <p>© 2026 Amazing Grace. All rights reserved.</p>
                   </footer>
+                  
+<section id="comments" style="background:#f4f8fc;">
+  <h2>💬 Leave a Comment</h2>
+  <p>Share your message, testimony, prayer, or encouragement.</p>
+
+  <form id="commentForm"
+        style="max-width:600px;margin:25px auto;text-align:left;">
+
+    <label for="visitorName">Your Name</label>
+    <input type="text" id="visitorName"
+           placeholder="Enter your name"
+           maxlength="80" required
+           style="width:100%;padding:12px;margin:8px 0 16px;">
+
+    <label for="visitorComment">Your Comment</label>
+    <textarea id="visitorComment"
+              placeholder="Write your comment here..."
+              maxlength="1000" rows="5" required
+              style="width:100%;padding:12px;margin:8px 0 16px;resize:vertical;"></textarea>
+
+    <button type="submit"
+            style="background:#103e67;color:white;padding:13px 24px;border:0;border-radius:25px;cursor:pointer;">
+      Post Comment
+    </button>
+  </form>
+
+  <h3>Visitor Comments</h3>
+  <div id="commentsList"
+       style="max-width:700px;margin:20px auto;text-align:left;">
+  </div>
+</section>
+
                 </body>
                 </html>
