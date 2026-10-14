@@ -1,15 +1,4 @@
-import com.sun.net.httpserver.HttpServer;
-import java.net.InetSocketAddress;
-import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
 
-public class AmazinggraceWebsite {
-    public static void main(String[] args) throws Exception {
-        HttpServer server = HttpServer.create(
-            new InetSocketAddress(8080), 0);
-
-        server.createContext("/", exchange -> {
-            String html = """
                 <!DOCTYPE html>
                 <html lang="en">
                 <head>
@@ -221,20 +210,3 @@ public class AmazinggraceWebsite {
                   </footer>
                 </body>
                 </html>
-                """;
-
-            byte[] page = html.getBytes(StandardCharsets.UTF_8);
-            exchange.getResponseHeaders().set(
-                "Content-Type", "text/html; charset=UTF-8");
-            exchange.sendResponseHeaders(200, page.length);
-
-            try (OutputStream out = exchange.getResponseBody()) {
-                out.write(page);
-            }
-        });
-
-        server.start();
-        System.out.println(
-            "Amazing Grace website running at http://localhost:8080");
-    }
-}
