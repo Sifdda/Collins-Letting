@@ -316,7 +316,108 @@
                     <p>Kapsabet, Kenya</p>
                     <p>© 2026 Amazing Grace. All rights reserved.</p>
                   </footer>
-                  
+            ```html
+<!-- SHARE AMAZING GRACE WEBSITE -->
+<section id="share" style="
+  background: linear-gradient(135deg, #08233e, #145b70);
+  color: white;
+  text-align: center;
+  padding: 45px 8%;
+">
+  <h2 style="color: #f1c56b;">
+    🙏 Share Amazing Grace
+  </h2>
+
+  <p>
+    Help me spread the Word of God!
+    Share my gospel music ministry with your friends and family.
+  </p>
+
+  <button onclick="shareMyWebsite()" style="
+    background: #1877F2;
+    color: white;
+    padding: 15px 28px;
+    border: none;
+    border-radius: 30px;
+    font-size: 17px;
+    cursor: pointer;
+    margin: 8px;
+  ">
+    📤 Share My Website
+  </button>
+
+  <a id="shareWhatsApp" href="#" target="_blank"
+     rel="noopener noreferrer" style="
+    display: inline-block;
+    background: #25D366;
+    color: white;
+    padding: 15px 28px;
+    border-radius: 30px;
+    text-decoration: none;
+    margin: 8px;
+    font-size: 17px;
+  ">
+    💚 Share on WhatsApp
+  </a>
+
+  <button onclick="copyMyWebsite()" style="
+    background: #f1c56b;
+    color: #08233e;
+    padding: 15px 28px;
+    border: none;
+    border-radius: 30px;
+    font-size: 17px;
+    cursor: pointer;
+    margin: 8px;
+  ">
+    🔗 Copy Website Link
+  </button>
+
+  <p id="shareMessage" aria-live="polite"></p>
+</section>
+
+<script>
+  function shareMyWebsite() {
+    const url = window.location.href;
+    const message =
+      "🙏 Visit Amazing Grace — Work with Christ: " + url;
+
+    if (navigator.share) {
+      navigator.share({
+        title: "Amazing Grace — Work with Christ",
+        text: "Help spread the Word of God!",
+        url: url
+      }).catch(() => {});
+    } else {
+      window.open(
+        "https://www.facebook.com/sharer/sharer.php?u=" +
+        encodeURIComponent(url),
+        "_blank",
+        "noopener,noreferrer"
+      );
+    }
+  }
+
+  document.getElementById("shareWhatsApp").href =
+    "https://wa.me/?text=" +
+    encodeURIComponent(
+      "🙏 Visit Amazing Grace — Work with Christ: " +
+      window.location.href
+    );
+
+  async function copyMyWebsite() {
+    const url = window.location.href;
+    const message = document.getElementById("shareMessage");
+
+    try {
+      await navigator.clipboard.writeText(url);
+      message.textContent = "✅ Website link copied! You can now share it.";
+    } catch (error) {
+      message.textContent = "Please copy your website address from your browser.";
+    }
+  }
+</script>
+```      
 <section id="comments" style="background:#f4f8fc;">
   <h2>💬 Leave a Comment</h2>
   <p>Share your message, testimony, prayer, or encouragement.</p>
