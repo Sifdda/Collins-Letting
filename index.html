@@ -416,7 +416,8 @@
     }
   }
 </script>     
-<section id="comments" style="background:#f4f8fc;">
+
+<section id="comments" style="background:#f4f8fc;padding:55px 8%;text-align:center;">
   <h2>💬 Leave a Comment</h2>
   <p>Share your message, testimony, prayer, or encouragement.</p>
 
@@ -435,27 +436,139 @@
               maxlength="1000" rows="5" required
               style="width:100%;padding:12px;margin:8px 0 16px;resize:vertical;"></textarea>
 
-    <button type="submit">
-            style="background:#103e67;color:white;padding:13px 24px;border:0;border-radius:25px;cursor:pointer;">
+    <button type="submit" id="postCommentButton"
+            style="background:#103e67;color:white;padding:13px 24px;border:0;border-radius:25px;cursor:pointer;width:100%;">
       Post Comment
     </button>
+
+    <p id="commentStatus" role="status" aria-live="polite"></p>
   </form>
 
   <h3>Visitor Comments</h3>
   <div id="commentsList"
        style="max-width:700px;margin:20px auto;text-align:left;">
+    <p>Loading comments...</p>
   </div>
 </section>
-      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyA3rqKiUrn1Tr7gvo03VMGYEzJgG2QGqtQ",
-  authDomain: "amazinggracecomments-e68ea.firebaseapp.com",
-  projectId: "amazinggracecomments-e68ea",
-  storageBucket: "amazinggracecomments-e68ea.firebasestorage.app",
-  messagingSenderId: "494112674814",
-  appId: "1:494112674814:web:c31db229b6ed459d0b26af",
-  measurementId: "G-0PPXDFKYVZ"
-};            
+
+<script type="module">
+  import { initializeApp } from
+    "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+    onSnapshot,
+    query,
+    orderBy,
+    serverTimestamp
+  } from
+    "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyA3rqKiUrn1Tr7gvo03VMGYEzJgG2QqtQ",
+    authDomain: "amazinggracecomments-e68ea.firebaseapp.com",
+    projectId: "amazinggracecomments-e68ea",
+    storageBucket: "amazinggracecomments-e68ea.firebasestorage.app",
+    messagingSenderId: "494112674814",
+    appId: "1:494112674814:web:c31db229b6ed459d0b26af",
+    measurementId: "G-0PPXDFKYVZ"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const commentForm = document.getElementById("commentForm");
+  const nameInput = document.getElementById("visitorName");
+  const commentInput = document.getElementById("visitorComment");
+  const postButton = document.getElementById("postCommentButton");
+  const status = document.getElementById("commentStatus");
+  const commentsList = document.getElementById("commentsList");
+
+  const commentsRef = collection(db, "comments");
+
+  commentForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const name = nameInput.value.trim();
+    const comment = commentInput.value.trim();
+
+    if (!name || !comment) {
+      status.textContent = "Please enter your name and comment.";
+      return;
+    }
+
+    postButton.disabled = true;
+    status.textContent = "Posting your comment...";
+
+    try {
+      await addDoc(commentsRef, {
+        name: name,
+        comment: comment,
+        createdAt: serverTimestamp()
+      });
+
+      commentForm.reset();
+      status.textContent = "Your comment was posted successfully. Thank you!";
+    } catch (error) {
+      console.error("Error posting comment:", error);
+      status.textContent =
+        "Unable to post. Please check your internet connection and Firebase settings.";
+    } finally {
+      postButton.disabled = false;
+    }
+  });
+
+  const commentsQuery = query(
+    commentsRef,
+    orderBy("createdAt", "desc")
+  );
+
+  onSnapshot(commentsQuery, (snapshot) => {
+    commentsList.replaceChildren();
+
+    if (snapshot.empty) {
+      const emptyMessage = document.createElement("p");
+      emptyMessage.textContent = "No comments yet. Be the first to comment!";
+      commentsList.appendChild(emptyMessage);
+      return;
+    }
+
+    snapshot.forEach((documentSnapshot) => {
+      const data = documentSnapshot.data();
+
+      const card = document.createElement("article");
+      card.style.cssText =
+        "background:white;padding:16px;margin:12px 0;border-radius:12px;box-shadow:0 2px 8px #00000010;";
+
+      const name = document.createElement("h4");
+      name.textContent = data.name || "Visitor";
+      name.style.margin = "0 0 8px";
+
+      const message = document.createElement("p");
+      message.textContent = data.comment || "";
+      message.style.whiteSpace = "pre-wrap";
+      message.style.overflowWrap = "anywhere";
+
+      card.append(name, message);
+
+      if (data.createdAt) {
+        const date = document.createElement("small");
+        date.textContent = data.createdAt.toDate().toLocaleString();
+        date.style.color = "#526579";
+        card.appendChild(date);
+      }
+
+      commentsList.appendChild(card);
+    });
+  }, (error) => {
+    console.error("Error loading comments:", error);
+    commentsList.textContent =
+      "Comments could not be loaded. Please check your Firebase settings.";
+  });
+</script>
+          
                 
 
                 </body>
