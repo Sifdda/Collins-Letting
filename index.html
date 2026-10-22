@@ -1,470 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amazing Grace | Work with Christ</title>
+<meta name="description" content="Amazing Grace — Work with Christ. Gospel music ministry by Collins Letting from Kapsabet, Kenya. Watch gospel videos, pray, and support the ministry.">
+<style>
+  :root {
+    --navy: #08233e;
+    --blue: #103e67;
+    --gold: #f1c56b;
+    --deep-gold: #8a5d10;
+    --teal: #145b70;
+    --cream: #f4f8fc;
+    --ink: #102b48;
+    --green: #0b7048;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; font-family: Georgia, "Times New Roman", serif; color: var(--ink); background: var(--cream); line-height: 1.7; }
+  a { overflow-wrap: anywhere; }
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
 
-                <!DOCTYPE html>
-                <html lang="en">
-                <head>
-                  <meta charset="UTF-8">
-                  <meta name="viewport"
-                        content="width=device-width, initial-scale=1.0">
-                  <title>Amazing Grace | Work with Christ</title>
-                  <style>
-                    * { box-sizing: border-box; }
-                    body {
-                      margin: 0;
-                      font-family: Arial, sans-serif;
-                      color: #102b48;
-                      background: #f4f8fc;
-                    }
-                    header {
-                      background: #08233e;
-                      color: blue;
-                      padding: 22px 7%;
-                      display: flex;
-                      justify-content: space-between;
-                      align-items: center;
-                      flex-wrap: wrap;
-                      gap: 15px;
-                    }
-                    header h2 { margin: 0; color: #f1c56b; }
-                    header p { margin: 5px 0 0; }
-                    nav a {
-                      color: yellow;
-                      text-decoration: none;
-                      margin: 8px;
-                    }
-                    .hero h1 {
-                      font-size: clamp(40px, 7vw, 72px);
-                      margin: 0;
-                    }
-                    .hero h2 {
-                      font-size: 28px;
-                      color: #b78322;
-                    }
-                    .hero p {
-                      font-size: 19px;
-                      line-height: 1.7;
-                    }
-                    .button {
-                      display: inline-block;
-                      background: #103e67;
-                      color: white;
-                      padding: 14px 24px;
-                      margin: 10px;
-                      border-radius: 30px;
-                      text-decoration: none;
-                    }
-                    section {
-                      padding: 55px 8%;
-                      text-align: center;
-                    }
-                    .about {
-                      background: orange;
-                      line-height: 1.8;
-                    }
-                    .videos {
-                      display: grid;
-                      grid-template-columns:
-                        repeat(auto-fit, minmax(280px, 1fr));
-                      gap: 24px;
-                      margin-top: 30px;
-                    }
-                    .video {
-                      background: white;
-                      padding: 15px;
-                      border-radius: 15px;
-                      box-shadow: 0 4px 15px #00000012;
-                    }
-                    iframe {
-                      width: 100%;
-                      aspect-ratio: 16 / 9;
-                      border: 0;
-                      border-radius: 10px;
-                    }
-                    footer {
-                      background: #08233e;
-                      color: white;
-                      text-align: center;
-                      padding: 28px 15px;
-                      line-height: 1.8;
-                    }
-                    a { overflow-wrap: anywhere; }
-                  </style>
-                </head>
-                <body>
-                  <header>
-                    <div>
-                      <h2>Amazing Grace ✝</h2>
-                      <p>Work with Christ</p>
-                    </div>
-                    <nav>
-                      <a href="#home">Home</a>
-                      <a href="#about">About</a>
-                      <a href="#music">Music</a>
-                      <a href="#contact">Contact</a>
-                    </nav>
-                  </header>
+  header { background: var(--navy); color: #fff; padding: 20px 7%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  header h2 { margin: 0; color: var(--gold); }
+  header p { margin: 4px 0 0; color: #fff; }
+  nav a { color: var(--gold); text-decoration: none; margin: 8px; font-family: Arial, sans-serif; }
+  nav a:hover { text-decoration: underline; }
 
-                  <section class="hero" id="home">
-                    <h1>Amazing Grace</h1>
-                    <h2>Work with Christ</h2>
-                    <p>
-                      Welcome to my gospel music ministry.<br>
-                      Sharing the message of faith, hope and love
-                      through music.
-                    </p>
-                    <a class="button" href="#music">
-                      Watch My Videos
-                    </a>
-                    <a class="button" href="#contact">
-                      Contact Me
-                    </a>
-                  </section>
+  section { padding: 55px 8%; text-align: center; }
+  section h2 { margin-top: 0; }
+  .hero { background: linear-gradient(135deg, var(--navy), var(--teal)); color: #fff; padding: 80px 8%; }
+  .hero h1 { font-size: clamp(40px, 7vw, 72px); margin: 0; }
+  .hero h2 { font-size: 28px; color: var(--gold); }
+  .hero p { font-size: 19px; max-width: 650px; margin: 16px auto; }
+  .button { display: inline-block; background: var(--gold); color: var(--navy); padding: 14px 26px; margin: 8px; border-radius: 30px; text-decoration: none; font-weight: bold; font-family: Arial, sans-serif; border: 0; cursor: pointer; font-size: 16px; }
+  .button.alt { background: transparent; color: #fff; border: 2px solid var(--gold); }
 
-                  <section class="about" id="about">
-                    <h2>About the Artist</h2>
-                    <h3>Collins Letting</h3>
-                    <p>
-                      I am a gospel artist dedicated to sharing
-                      God's message through gospel music.
-                      My mission is to inspire people, encourage
-                      faith and spread hope through Christ.
-                    </p>
-                    <p><em>
-                      "For we walk by faith, not by sight."
-                      — 2 Corinthians 5:7
-                    </em></p>
-                  </section>
+  .about { background: #fff; }
+  .about img { width: 170px; height: 170px; object-fit: cover; border-radius: 50%; border: 4px solid var(--gold); margin-bottom: 10px; }
+  .about p { max-width: 700px; margin: 14px auto; }
 
-                  <section id="music">
-                    <h2>My Gospel Music</h2>
-                    <p>Watch, listen and be blessed!</p>
-                    <div class="videos">
-                      <div class="video">
-                        <h3>My Gospel Video 1</h3>
-                        <iframe
-                          src="https://www.youtube.com/embed/C0zfxArfofc"
-                          title="Amazing Grace gospel video 1"
-                          loading="lazy"
-                          allowfullscreen>
-                        </iframe>
-                        <p>
-                          <a href="https://youtu.be/C0zfxArfofc"
-                             target="_blank" rel="noopener">
-                            Watch on YouTube
-                          </a>
-                        </p>
-                      </div>
-                      <div class="video">
-                        <h3>My Gospel Video 2</h3>
-                        <iframe
-                          src="https://www.youtube.com/embed/11G1PGyao5o"
-                          title="Amazing Grace gospel video 2"
-                          loading="lazy"
-                          allowfullscreen>
-                        </iframe>
-                        <p>
-                          <a href="https://youtu.be/11G1PGyao5o"
-                             target="_blank" rel="noopener">
-                            Watch on YouTube
-                          </a>
-                        </p>
-                      </div>
-                    </div>
-                  </section>
-                  
-<!-- SUPPORT MY GOSPEL MUSIC -->
-<section id="support" style="
-  background: linear-gradient(135deg, #08233e, #145b70);
-  color: white;
-  padding: 65px 8%;
-  text-align: center;
-">
-  <div style="font-size: 55px;">❤️🙏🎶</div>
+  .videos { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 30px; }
+  .video { background: #fff; padding: 15px; border-radius: 15px; box-shadow: 0 4px 15px #00000012; }
+  iframe { width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 10px; }
 
-  <h2 style="color: #f1c56b; font-size: 34px;">
-    Support My Gospel Music
-  </h2>
+  .dark { background: linear-gradient(135deg, var(--navy), var(--teal)); color: #fff; }
+  .dark h2 { color: var(--gold); }
+  .dark p { max-width: 750px; margin-left: auto; margin-right: auto; }
+  .card { background: #fff; color: var(--ink); max-width: 480px; margin: 28px auto; padding: 26px 20px; border-radius: 18px; font-family: Arial, sans-serif; }
+  .card h3 { margin-top: 0; }
+  .big { font-size: 28px; font-weight: bold; color: var(--green); margin: 8px 0; }
+  .call { background: var(--green); color: #fff; }
+  .wa { background: #25D366; color: #fff; }
 
-  <h3 style="font-size: 24px;">
-    Together, Let Us Spread the Word of God
-  </h3>
+  #comments { background: var(--cream); }
+  form { max-width: 600px; margin: 25px auto; text-align: left; font-family: Arial, sans-serif; }
+  input, textarea { width: 100%; padding: 12px; margin: 8px 0 16px; border: 1px solid #9fb3c8; border-radius: 8px; font: inherit; }
+  form button { background: var(--blue); color: #fff; padding: 13px 24px; border: 0; border-radius: 25px; cursor: pointer; width: 100%; font-size: 16px; }
+  form button:disabled { opacity: .6; }
+  #commentsList { max-width: 700px; margin: 20px auto; text-align: left; }
 
-  <p style="
-    max-width: 750px;
-    margin: 20px auto;
-    font-size: 18px;
-    line-height: 1.9;
-  ">
-    Dear friends, brothers and sisters in Christ,
-    welcome to Amazing Grace — Work with Christ!
-    <br><br>
-    God has given me a passion for gospel music, and my
-    greatest desire is to share His love, hope, peace and
-    salvation with people everywhere through songs.
-    <br><br>
-    I humbly invite you to be part of this ministry.
-    Your prayers, encouragement, sharing of my songs,
-    and financial support can help me continue producing
-    gospel music and spreading the message of Jesus Christ.
-    <br><br>
-    <strong style="color:#f1c56b;">
-      No support is too small when it comes from the heart.
-    </strong>
-    Every act of kindness is deeply appreciated.
-    May God bless you abundantly for standing with me
-    in this journey of faith.
-    <br><br>
-    Let us work together for Christ and use music to
-    touch lives and bring souls closer to God.
-  </p>
+  #daily-prayer { background: #fff; }
+  #daily-prayer .inner { max-width: 760px; margin: 0 auto; }
+  #prayer-text { font-size: 18px; }
+  #prayer-verse { font-style: italic; }
 
-  <div style="
-    background: white;
-    color: #102b48;
-    max-width: 480px;
-    margin: 30px auto;
-    padding: 28px 20px;
-    border-radius: 18px;
-  ">
-    <h3>🙏 Support Collins Letting</h3>
+  footer { background: var(--navy); color: #fff; text-align: center; padding: 28px 15px; line-height: 1.8; }
+  footer h2 { color: var(--gold); margin: 0; }
+  footer a { color: var(--gold); }
+</style>
+</head>
+<body>
 
-    <p style="font-size:17px;">
-      Call or contact me on:
-    </p>
-
-    <p style="
-      font-size: 30px;
-      font-weight: bold;
-      color: #0b7048;
-      margin: 15px 0;
-    ">
-      0790928450
-    </p>
-
-    <a href="tel:0790928450" style="
-      display: inline-block;
-      background: #0b7048;
-      color: white;
-      padding: 14px 25px;
-      border-radius: 30px;
-      text-decoration: none;
-      margin: 8px;
-      font-weight: bold;
-    ">
-      📞 Call Me to Support
-    </a>
-
-    <a href="https://wa.me/254790928450?text=Hello%20Collins%2C%20I%20would%20like%20to%20support%20your%20gospel%20music%20ministry."
-       target="_blank" rel="noopener noreferrer"
-       style="
-         display: inline-block;
-         background: #25D366;
-         color: white;
-         padding: 14px 25px;
-         border-radius: 30px;
-         text-decoration: none;
-         margin: 8px;
-         font-weight: bold;
-       ">
-      WhatsApp Me
-    </a>
-
-    <p style="font-size:14px;line-height:1.6;">
-      Please contact me to arrange your support.
-      Thank you for believing in this ministry.
-    </p>
+<header>
+  <div>
+    <h2>Amazing Grace ✝</h2>
+    <p>Work with Christ</p>
   </div>
+  <nav aria-label="Main">
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#music">Music</a>
+    <a href="#support">Support</a>
+    <a href="#daily-prayer">Prayer</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
 
-  <p style="font-style:italic;font-size:18px;">
-    "God loves a cheerful giver." — 2 Corinthians 9:7
-  </p>
-
-  <p>
-    ❤️ Thank you for supporting gospel music.
-    May the Lord richly bless you!
-  </p>
+<section class="hero" id="home">
+  <h1>Amazing Grace</h1>
+  <h2>Work with Christ</h2>
+  <p>Welcome to my gospel music ministry. Sharing the message of faith, hope and love through music.</p>
+  <a class="button" href="#music">Watch My Videos</a>
+  <a class="button alt" href="#support">Support the Ministry</a>
 </section>
 
+<section class="about" id="about">
+  <!-- Add your photo: save it as photo.jpg next to this file and it will appear here. -->
+  <img src="photo.jpg" alt="Collins Letting, gospel artist" onerror="this.style.display='none'">
+  <h2>About the Artist</h2>
+  <h3>Collins Letting</h3>
+  <p>I am a gospel artist dedicated to sharing God's message through gospel music. My mission is to inspire people, encourage faith and spread hope through Christ.</p>
+  <p><em>"For we walk by faith, not by sight." — 2 Corinthians 5:7</em></p>
+</section>
 
-                  <section class="about" id="contact">
-                    <h2>Contact Collins Letting</h2>
-                    <p>Location: Kapsabet, Kenya</p>
-                    <p>
-                      Phone:
-                      <a href="tel:0790928450">0790928450</a>
-                    </p>
-                    <p>
-                      Email:
-                      <a href="mailto:collinsletting48@gmail.com">
-                        collinsletting48@gmail.com
-                      </a>
-                    </p>
-                    <p>
-                      Facebook name:
-                      Sifa Sifda Davsi / Wasivna Nasivwa
-                    </p>
-                    <p>
-                      <a class="button"
-                         href="mailto:collinsletting48@gmail.com">
-                        Send Me an Email
-                      </a>
-                    </p>
-                  </section>
+<section id="music">
+  <h2>My Gospel Music</h2>
+  <p>Watch, listen and be blessed!</p>
+  <div class="videos">
+    <div class="video">
+      <h3>My Gospel Video 1</h3>
+      <iframe src="https://www.youtube.com/embed/C0zfxArfofc" title="Amazing Grace gospel video 1" loading="lazy" allowfullscreen></iframe>
+      <p><a href="https://youtu.be/C0zfxArfofc" target="_blank" rel="noopener">Watch on YouTube</a></p>
+    </div>
+    <div class="video">
+      <h3>My Gospel Video 2</h3>
+      <iframe src="https://www.youtube.com/embed/11G1PGyao5o" title="Amazing Grace gospel video 2" loading="lazy" allowfullscreen></iframe>
+      <p><a href="https://youtu.be/11G1PGyao5o" target="_blank" rel="noopener">Watch on YouTube</a></p>
+    </div>
+  </div>
+</section>
 
-                  <footer>
-                    <h2>Amazing Grace</h2>
-                    <p>Work with Christ | Gospel Artist</p>
-                    <p>Kapsabet, Kenya</p>
-                    <p>© 2026 Amazing Grace. All rights reserved.</p>
-                  </footer>
-<!-- SHARE AMAZING GRACE WEBSITE -->
-<section id="share" style="
-  background: linear-gradient(135deg, #08233e, #145b70);
-  color: white;
-  text-align: center;
-  padding: 45px 8%;
-">
-  <h2 style="color: #f1c56b;">
-    🙏 Share Amazing Grace
-  </h2>
+<section class="dark" id="support">
+  <div style="font-size:50px;">❤️🙏🎶</div>
+  <h2>Support My Gospel Music</h2>
+  <h3>Together, Let Us Spread the Word of God</h3>
+  <p>Dear friends, brothers and sisters in Christ, welcome to Amazing Grace — Work with Christ!</p>
+  <p>God has given me a passion for gospel music, and my greatest desire is to share His love, hope, peace and salvation with people everywhere through songs.</p>
+  <p>I humbly invite you to be part of this ministry. Your prayers, encouragement, sharing of my songs, and financial support can help me continue producing gospel music and spreading the message of Jesus Christ.</p>
+  <p><strong style="color:var(--gold);">No support is too small when it comes from the heart.</strong> May God bless you abundantly for standing with me in this journey of faith.</p>
 
-  <p>
-    Help me spread the Word of God!
-    Share my gospel music ministry with your friends and family.
-  </p>
+  <div class="card">
+    <h3>🙏 Support Collins Letting</h3>
 
-  <button onclick="shareMyWebsite()" style="
-    background: #1877F2;
-    color: white;
-    padding: 15px 28px;
-    border: none;
-    border-radius: 30px;
-    font-size: 17px;
-    cursor: pointer;
-    margin: 8px;
-  ">
-    📤 Share My Website
-  </button>
+    <!-- M-Pesa: CHECK THIS NUMBER IS CORRECT before publishing. Change it here if your M-Pesa number is different. -->
+    <p style="margin-bottom:0;"><strong>Give by M-Pesa (Send Money)</strong></p>
+    <p class="big">0790 928 450</p>
+    <p style="margin-top:0;font-size:14px;">Name on M-Pesa: Collins Letting</p>
+    <hr style="border:0;border-top:1px solid #d5e0ea;margin:20px 0;">
 
-  <a id="shareWhatsApp" href="#" target="_blank"
-     rel="noopener noreferrer" style="
-    display: inline-block;
-    background: #25D366;
-    color: white;
-    padding: 15px 28px;
-    border-radius: 30px;
-    text-decoration: none;
-    margin: 8px;
-    font-size: 17px;
-  ">
-    💚 Share on WhatsApp
-  </a>
+    <p style="margin-bottom:6px;">Or call / message me:</p>
+    <a class="button call" href="tel:+254790928450">📞 Call Me</a>
+    <a class="button wa" href="https://wa.me/254790928450?text=Hello%20Collins%2C%20I%20would%20like%20to%20support%20your%20gospel%20music%20ministry." target="_blank" rel="noopener noreferrer">WhatsApp Me</a>
+    <p style="font-size:14px;">Thank you for believing in this ministry.</p>
+  </div>
 
-  <button onclick="copyMyWebsite()" style="
-    background: #f1c56b;
-    color: #08233e;
-    padding: 15px 28px;
-    border: none;
-    border-radius: 30px;
-    font-size: 17px;
-    cursor: pointer;
-    margin: 8px;
-  ">
-    🔗 Copy Website Link
-  </button>
+  <p><em>"God loves a cheerful giver." — 2 Corinthians 9:7</em></p>
+  <p>❤️ Thank you for supporting gospel music. May the Lord richly bless you!</p>
+</section>
 
+<section id="daily-prayer">
+  <div class="inner">
+    <h2>🙏 Daily Prayer</h2>
+    <p id="prayer-date"></p>
+    <h3 id="prayer-title">Today's Prayer</h3>
+    <p id="prayer-text"></p>
+    <h3>📖 Bible Verse</h3>
+    <p id="prayer-verse"></p>
+    <button class="button" style="background:var(--navy);color:#fff;" onclick="showDailyPrayer()">Refresh Today's Prayer</button>
+  </div>
+</section>
+
+<section class="dark" id="share">
+  <h2>🙏 Share Amazing Grace</h2>
+  <p>Help me spread the Word of God! Share my gospel music ministry with your friends and family.</p>
+  <button class="button" style="background:#1877F2;color:#fff;" onclick="shareMyWebsite()">📤 Share My Website</button>
+  <a id="shareWhatsApp" class="button wa" href="#" target="_blank" rel="noopener noreferrer">💚 Share on WhatsApp</a>
+  <button class="button" onclick="copyMyWebsite()">🔗 Copy Website Link</button>
   <p id="shareMessage" aria-live="polite"></p>
 </section>
 
-<script>
-  function shareMyWebsite() {
-    const url = window.location.href;
-    const message =
-      "🙏 Visit Amazing Grace — Work with Christ: " + url;
-
-    if (navigator.share) {
-      navigator.share({
-        title: "Amazing Grace — Work with Christ",
-        text: "Help spread the Word of God!",
-        url: url
-      }).catch(() => {});
-    } else {
-      window.open(
-        "https://www.facebook.com/sharer/sharer.php?u=" +
-        encodeURIComponent(url),
-        "_blank",
-        "noopener,noreferrer"
-      );
-    }
-  }
-
-  document.getElementById("shareWhatsApp").href =
-    "https://wa.me/?text=" +
-    encodeURIComponent(
-      "🙏 Visit Amazing Grace — Work with Christ: " +
-      window.location.href
-    );
-
-  async function copyMyWebsite() {
-    const url = window.location.href;
-    const message = document.getElementById("shareMessage");
-
-    try {
-      await navigator.clipboard.writeText(url);
-      message.textContent = "✅ Website link copied! You can now share it.";
-    } catch (error) {
-      message.textContent = "Please copy your website address from your browser.";
-    }
-  }
-</script>     
-
-<section id="comments" style="background:#f4f8fc;padding:55px 8%;text-align:center;">
+<section id="comments">
   <h2>💬 Leave a Comment</h2>
   <p>Share your message, testimony, prayer, or encouragement.</p>
-
-  <form id="commentForm"
-        style="max-width:600px;margin:25px auto;text-align:left;">
-
+  <form id="commentForm">
     <label for="visitorName">Your Name</label>
-    <input type="text" id="visitorName"
-           placeholder="Enter your name"
-           maxlength="80" required
-           style="width:100%;padding:12px;margin:8px 0 16px;">
-
+    <input type="text" id="visitorName" placeholder="Enter your name" maxlength="80" required>
     <label for="visitorComment">Your Comment</label>
-    <textarea id="visitorComment"
-              placeholder="Write your comment here..."
-              maxlength="1000" rows="5" required
-              style="width:100%;padding:12px;margin:8px 0 16px;resize:vertical;"></textarea>
-
-    <button type="submit" id="postCommentButton"
-            style="background:#103e67;color:white;padding:13px 24px;border:0;border-radius:25px;cursor:pointer;width:100%;">
-      Post Comment
-    </button>
-
+    <textarea id="visitorComment" placeholder="Write your comment here..." maxlength="1000" rows="5" required style="resize:vertical;"></textarea>
+    <button type="submit" id="postCommentButton">Post Comment</button>
     <p id="commentStatus" role="status" aria-live="polite"></p>
   </form>
-
   <h3>Visitor Comments</h3>
-  <div id="commentsList"
-       style="max-width:700px;margin:20px auto;text-align:left;">
-    <p>Loading comments...</p>
-  </div>
+  <div id="commentsList"><p>Loading comments...</p></div>
 </section>
 
-<script type="module">
-  import { initializeApp } from
-    "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+<section class="about" id="contact">
+  <h2>Contact Collins Letting</h2>
+  <p>Location: Kapsabet, Kenya</p>
+  <p>Phone: <a href="tel:+254790928450">0790928450</a></p>
+  <p>Email: <a href="mailto:collinsletting48@gmail.com">collinsletting48@gmail.com</a></p>
+  <p>Facebook name: Sifa Sifda Davsi / Wasivna Nasivwa</p>
+  <p><a class="button" style="background:var(--blue);color:#fff;" href="mailto:collinsletting48@gmail.com">Send Me an Email</a></p>
+</section>
 
-  import {
-    getFirestore,
-    collection,
-    addDoc,
-    onSnapshot,
-    query,
-    orderBy,
-    serverTimestamp
-  } from
-    "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+<footer>
+  <h2>Amazing Grace</h2>
+  <p>Work with Christ | Gospel Artist</p>
+  <p>Kapsabet, Kenya</p>
+  <p>© 2026 Amazing Grace. All rights reserved.</p>
+</footer>
+
+<script>
+  function shareMyWebsite() {
+    var url = window.location.href;
+    if (navigator.share) {
+      navigator.share({ title: "Amazing Grace — Work with Christ", text: "Help spread the Word of God!", url: url }).catch(function () {});
+    } else {
+      window.open("https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(url), "_blank", "noopener,noreferrer");
+    }
+  }
+  document.getElementById("shareWhatsApp").href =
+    "https://wa.me/?text=" + encodeURIComponent("🙏 Visit Amazing Grace — Work with Christ: " + window.location.href);
+
+  async function copyMyWebsite() {
+    var msg = document.getElementById("shareMessage");
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      msg.textContent = "✅ Website link copied! You can now share it.";
+    } catch (e) {
+      msg.textContent = "Please copy your website address from your browser.";
+    }
+  }
+
+  var dailyPrayers = [
+    { title: "Prayer for a New Day", prayer: "Heavenly Father, thank You for the gift of this new day. Guide my steps, fill my heart with peace, and help me share Your love with everyone I meet. In Jesus' name, Amen.", verse: "This is the day which the LORD hath made; we will rejoice and be glad in it. — Psalm 118:24" },
+    { title: "Prayer for Strength", prayer: "Lord Jesus, give me strength when I am weak, hope when I am discouraged, and faith when I cannot see the way. Help me trust You in everything. Amen.", verse: "I can do all things through Christ which strengtheneth me. — Philippians 4:13" },
+    { title: "Prayer for Peace", prayer: "Dear God, calm every troubled heart and fill our homes with love and peace. Help us forgive one another and rest in Your faithful care. In Jesus' name, Amen.", verse: "And the peace of God, which passeth all understanding, shall keep your hearts and minds through Christ Jesus. — Philippians 4:7" },
+    { title: "Prayer for Guidance", prayer: "Father, direct my decisions and show me the right path. Help me listen to Your wisdom and live according to Your will. In Jesus' name, Amen.", verse: "Trust in the LORD with all thine heart. — Proverbs 3:5" },
+    { title: "Prayer of Thanksgiving", prayer: "Lord, thank You for life, family, daily provision, and Your unfailing love. Teach me to be grateful in every situation and to praise You always. Amen.", verse: "O give thanks unto the LORD; for he is good. — Psalm 107:1" },
+    { title: "Prayer for Families", prayer: "Heavenly Father, bless our families with unity, health, wisdom, and love. Protect our loved ones and help us encourage one another in faith. In Jesus' name, Amen.", verse: "As for me and my house, we will serve the LORD. — Joshua 24:15" },
+    { title: "Prayer for Hope", prayer: "Lord Jesus, renew my hope and remind me that I am never alone. Help me face tomorrow with courage and keep my eyes fixed on Your promises. Amen.", verse: "Now the God of hope fill you with all joy and peace in believing. — Romans 15:13" }
+  ];
+
+  function showDailyPrayer() {
+    var now = new Date();
+    var day = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 86400000);
+    var p = dailyPrayers[(day - 1) % dailyPrayers.length];
+    document.getElementById("prayer-date").textContent =
+      now.toLocaleDateString(undefined, { weekday: "long", year: "numeric", month: "long", day: "numeric" });
+    document.getElementById("prayer-title").textContent = p.title;
+    document.getElementById("prayer-text").textContent = p.prayer;
+    document.getElementById("prayer-verse").textContent = p.verse;
+  }
+  showDailyPrayer();
+</script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyA3rqKiUrn1Tr7gvo03VMGYEzJgG2QqtQ",
@@ -476,174 +261,67 @@
     measurementId: "G-0PPXDFKYVZ"
   };
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  const commentForm = document.getElementById("commentForm");
+  const db = getFirestore(initializeApp(firebaseConfig));
+  const form = document.getElementById("commentForm");
   const nameInput = document.getElementById("visitorName");
   const commentInput = document.getElementById("visitorComment");
   const postButton = document.getElementById("postCommentButton");
   const status = document.getElementById("commentStatus");
-  const commentsList = document.getElementById("commentsList");
-
+  const list = document.getElementById("commentsList");
   const commentsRef = collection(db, "comments");
 
-  commentForm.addEventListener("submit", async (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
-
     const name = nameInput.value.trim();
     const comment = commentInput.value.trim();
-
-    if (!name || !comment) {
-      status.textContent = "Please enter your name and comment.";
-      return;
-    }
-
+    if (!name || !comment) { status.textContent = "Please enter your name and comment."; return; }
     postButton.disabled = true;
     status.textContent = "Posting your comment...";
-
     try {
-      await addDoc(commentsRef, {
-        name: name,
-        comment: comment,
-        createdAt: serverTimestamp()
-      });
-
-      commentForm.reset();
+      await addDoc(commentsRef, { name: name, comment: comment, createdAt: serverTimestamp() });
+      form.reset();
       status.textContent = "Your comment was posted successfully. Thank you!";
     } catch (error) {
       console.error("Error posting comment:", error);
-      status.textContent =
-        "Unable to post. Please check your internet connection and Firebase settings.";
+      status.textContent = "Unable to post. Please check your internet connection and try again.";
     } finally {
       postButton.disabled = false;
     }
   });
 
-  const commentsQuery = query(
-    commentsRef,
-    orderBy("createdAt", "desc")
-  );
-
-  onSnapshot(commentsQuery, (snapshot) => {
-    commentsList.replaceChildren();
-
+  onSnapshot(query(commentsRef, orderBy("createdAt", "desc")), (snapshot) => {
+    list.replaceChildren();
     if (snapshot.empty) {
-      const emptyMessage = document.createElement("p");
-      emptyMessage.textContent = "No comments yet. Be the first to comment!";
-      commentsList.appendChild(emptyMessage);
+      const p = document.createElement("p");
+      p.textContent = "No comments yet. Be the first to comment!";
+      list.appendChild(p);
       return;
     }
-
-    snapshot.forEach((documentSnapshot) => {
-      const data = documentSnapshot.data();
-
+    snapshot.forEach((docSnap) => {
+      const data = docSnap.data();
       const card = document.createElement("article");
-      card.style.cssText =
-        "background:white;padding:16px;margin:12px 0;border-radius:12px;box-shadow:0 2px 8px #00000010;";
-
+      card.style.cssText = "background:white;padding:16px;margin:12px 0;border-radius:12px;box-shadow:0 2px 8px #00000010;";
       const name = document.createElement("h4");
       name.textContent = data.name || "Visitor";
       name.style.margin = "0 0 8px";
-
       const message = document.createElement("p");
       message.textContent = data.comment || "";
       message.style.whiteSpace = "pre-wrap";
       message.style.overflowWrap = "anywhere";
-
       card.append(name, message);
-
       if (data.createdAt) {
         const date = document.createElement("small");
         date.textContent = data.createdAt.toDate().toLocaleString();
         date.style.color = "#526579";
         card.appendChild(date);
       }
-
-      commentsList.appendChild(card);
+      list.appendChild(card);
     });
   }, (error) => {
     console.error("Error loading comments:", error);
-    commentsList.textContent =
-      "Comments could not be loaded. Please check your Firebase settings.";
+    list.textContent = "Comments could not be loaded. Please try again later.";
   });
 </script>
-                  
-<section id="daily-prayer" style="max-width:800px;margin:30px auto;padding:25px;background:#f4f8fc;border-radius:15px;text-align:center;color:#102b48;">
-  <h2>🙏 Daily Prayer</h2>
-  <p id="prayer-date"></p>
-  <h3 id="prayer-title">Today's Prayer</h3>
-  <p id="prayer-text" style="font-size:18px;line-height:1.8;"></p>
-  <h3>📖 Bible Verse</h3>
-  <p id="prayer-verse" style="font-style:italic;"></p>
-  <button onclick="showDailyPrayer()" style="padding:12px 20px;background:#08233e;color:white;border:0;border-radius:8px;cursor:pointer;">
-    Refresh Today's Prayer
-  </button>
-</section>
 
-<script>
-const dailyPrayers = [
-  {
-    title: "Prayer for a New Day",
-    prayer: "Heavenly Father, thank You for the gift of this new day. Guide my steps, fill my heart with peace, and help me share Your love with everyone I meet. In Jesus' name, Amen.",
-    verse: "This is the day which the LORD hath made; we will rejoice and be glad in it. — Psalm 118:24"
-  },
-  {
-    title: "Prayer for Strength",
-    prayer: "Lord Jesus, give me strength when I am weak, hope when I am discouraged, and faith when I cannot see the way. Help me trust You in everything. Amen.",
-    verse: "I can do all things through Christ which strengtheneth me. — Philippians 4:13"
-  },
-  {
-    title: "Prayer for Peace",
-    prayer: "Dear God, calm every troubled heart and fill our homes with love and peace. Help us forgive one another and rest in Your faithful care. In Jesus' name, Amen.",
-    verse: "And the peace of God, which passeth all understanding, shall keep your hearts and minds through Christ Jesus. — Philippians 4:7"
-  },
-  {
-    title: "Prayer for Guidance",
-    prayer: "Father, direct my decisions and show me the right path. Help me listen to Your wisdom and live according to Your will. In Jesus' name, Amen.",
-    verse: "Trust in the LORD with all thine heart. — Proverbs 3:5"
-  },
-  {
-    title: "Prayer of Thanksgiving",
-    prayer: "Lord, thank You for life, family, daily provision, and Your unfailing love. Teach me to be grateful in every situation and to praise You always. Amen.",
-    verse: "O give thanks unto the LORD; for he is good. — Psalm 107:1"
-  },
-  {
-    title: "Prayer for Families",
-    prayer: "Heavenly Father, bless our families with unity, health, wisdom, and love. Protect our loved ones and help us encourage one another in faith. In Jesus' name, Amen.",
-    verse: "As for me and my house, we will serve the LORD. — Joshua 24:15"
-  },
-  {
-    title: "Prayer for Hope",
-    prayer: "Lord Jesus, renew my hope and remind me that I am never alone. Help me face tomorrow with courage and keep my eyes fixed on Your promises. Amen.",
-    verse: "Now the God of hope fill you with all joy and peace in believing. — Romans 15:13"
-  }
-];
-
-function showDailyPrayer() {
-  const now = new Date();
-  const start = new Date(now.getFullYear(), 0, 0);
-  const day = Math.floor((now - start) / 86400000);
-  const prayer = dailyPrayers[(day - 1) % dailyPrayers.length];
-
-  document.getElementById("prayer-date").textContent =
-    now.toLocaleDateString(undefined, {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric"
-    });
-
-  document.getElementById("prayer-title").textContent = prayer.title;
-  document.getElementById("prayer-text").textContent = prayer.prayer;
-  document.getElementById("prayer-verse").textContent = prayer.verse;
-}
-
-showDailyPrayer();
-</script>
-
-          
-                
-
-                </body>
-                </html>
+</body>
+</html>
