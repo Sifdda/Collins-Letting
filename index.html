@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Amazing Grace | Work with Christ</title>
 <meta name="description" content="Amazing Grace — Work with Christ. Gospel music ministry by Collins Letting from Kapsabet, Kenya. Watch gospel videos, pray, and support the ministry.">
+<link rel="canonical" href="https://collinsletting.com/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://collinsletting.com/">
+<meta property="og:title" content="Amazing Grace — Work with Christ">
+<meta property="og:description" content="Gospel music ministry by Collins Letting. Watch, pray, and support.">
+<meta property="og:image" content="https://collinsletting.com/photo.jpg">
 <style>
   :root {
     --navy: #08233e;
@@ -119,6 +125,9 @@
       <p><a href="https://youtu.be/11G1PGyao5o" target="_blank" rel="noopener">Watch on YouTube</a></p>
     </div>
   </div>
+  <p style="margin-top:30px;">
+    <a class="button" style="background:#c4302b;color:#fff;" href="https://www.youtube.com/channel/UCAboDf0bv3CoR7AMt9b8vhQ?sub_confirmation=1" target="_blank" rel="noopener">▶ Subscribe on YouTube</a>
+  </p>
 </section>
 
 <section class="dark" id="support">
@@ -129,6 +138,8 @@
   <p>God has given me a passion for gospel music, and my greatest desire is to share His love, hope, peace and salvation with people everywhere through songs.</p>
   <p>I humbly invite you to be part of this ministry. Your prayers, encouragement, sharing of my songs, and financial support can help me continue producing gospel music and spreading the message of Jesus Christ.</p>
   <p><strong style="color:var(--gold);">No support is too small when it comes from the heart.</strong> May God bless you abundantly for standing with me in this journey of faith.</p>
+
+  <p><strong style="color:var(--gold);">How your gift is used:</strong> every gift goes toward sharing the love of Jesus Christ through gospel music.</p>
 
   <div class="card">
     <h3>🙏 Support Collins Letting</h3>
@@ -191,6 +202,7 @@
   <p>Phone: <a href="tel:+254790928450">0790928450</a></p>
   <p>Email: <a href="mailto:collinsletting48@gmail.com">collinsletting48@gmail.com</a></p>
   <p>Facebook name: Sifa Sifda Davsi / Wasivna Nasivwa</p>
+  <p>YouTube: <a href="https://www.youtube.com/channel/UCAboDf0bv3CoR7AMt9b8vhQ" target="_blank" rel="noopener">Collins Letting</a></p>
   <p><a class="button" style="background:var(--blue);color:#fff;" href="mailto:collinsletting48@gmail.com">Send Me an Email</a></p>
 </section>
 
@@ -202,8 +214,9 @@
 </footer>
 
 <script>
+  var SITE_URL = "https://collinsletting.com";
   function shareMyWebsite() {
-    var url = window.location.href;
+    var url = SITE_URL;
     if (navigator.share) {
       navigator.share({ title: "Amazing Grace — Work with Christ", text: "Help spread the Word of God!", url: url }).catch(function () {});
     } else {
@@ -211,12 +224,12 @@
     }
   }
   document.getElementById("shareWhatsApp").href =
-    "https://wa.me/?text=" + encodeURIComponent("🙏 Visit Amazing Grace — Work with Christ: " + window.location.href);
+    "https://wa.me/?text=" + encodeURIComponent("🙏 Visit Amazing Grace — Work with Christ: " + SITE_URL);
 
   async function copyMyWebsite() {
     var msg = document.getElementById("shareMessage");
     try {
-      await navigator.clipboard.writeText(window.location.href);
+      await navigator.clipboard.writeText(SITE_URL);
       msg.textContent = "✅ Website link copied! You can now share it.";
     } catch (e) {
       msg.textContent = "Please copy your website address from your browser.";
