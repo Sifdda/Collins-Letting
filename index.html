@@ -234,8 +234,9 @@
   <h2 data-t="co_h">💬 Leave a Comment</h2>
   <p data-t="co_p">Share your message, testimony, prayer, or encouragement.</p>
   <form id="commentForm">
-    <label for="visitorName" data-t="co_name">Your Name</label>
-    <input type="text" id="visitorName" data-tp="co_name_ph" placeholder="Enter your name" maxlength="80" required>
+    <button type="button" id="signInBtn">Sign in with Google to comment</button>
+    <p id="signedInAs" style="display:none;margin:0 0 12px;"></p>
+    <input type="text" id="visitorName" readonly style="display:none">
     <label for="visitorComment" data-t="co_msg">Your Comment</label>
     <textarea id="visitorComment" data-tp="co_msg_ph" placeholder="Write your comment here..." maxlength="1000" rows="5" required style="resize:vertical;"></textarea>
     <button type="submit" id="postCommentButton" data-t="co_btn">Post Comment</button>
@@ -312,7 +313,10 @@
       c_block_bad:"Your comment contains words that are not allowed. Please edit it and try again.",
       c_block_link:"Links are not allowed in comments.",
       c_block_private:"Please do not share phone numbers or emails in comments.",
-      c_block_caps:"Please write your comment normally, without all capitals or repeated characters."
+      c_block_caps:"Please write your comment normally, without all capitals or repeated characters.",
+      c_signin_btn:"Sign in with Google to comment",
+      c_signin:"Please sign in with Google first.",
+      c_signed_as:"Commenting as:"
     },
     sw: {
       tag:"Fanya Kazi na Kristo", n_home:"Nyumbani", n_about:"Kuhusu", n_music:"Muziki", n_gallery:"Picha", n_events:"Matukio", n_support:"Changia", n_prayer:"Maombi", n_contact:"Wasiliana",
@@ -338,7 +342,10 @@
       c_block_bad:"Maoni yako yana maneno yasiyoruhusiwa. Tafadhali yahariri na ujaribu tena.",
       c_block_link:"Viungo haviruhusiwi kwenye maoni.",
       c_block_private:"Tafadhali usiweke namba za simu au barua pepe kwenye maoni.",
-      c_block_caps:"Tafadhali andika maoni yako kawaida, bila herufi kubwa zote au kurudia herufi."
+      c_block_caps:"Tafadhali andika maoni yako kawaida, bila herufi kubwa zote au kurudia herufi.",
+      c_signin_btn:"Ingia na Google ili kutoa maoni",
+      c_signin:"Tafadhali ingia na Google kwanza.",
+      c_signed_as:"Unatoa maoni kama:"
     }
   };
   var lang = "en";
@@ -507,133 +514,7 @@
   document.getElementById("langBtn").addEventListener("click", showDailyPrayer);
 </script>
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyA3rqKiUrn1Tr7gvo03VMGYEzJgG2QqtQ",
-    authDomain: "amazinggracecomments-e68ea.firebaseapp.com",
-    projectId: "amazinggracecomments-e68ea",
-    storageBucket: "amazinggracecomments-e68ea.firebasestorage.app",
-    messagingSenderId: "494112674814",
-    appId: "1:494112674814:web:c31db229b6ed459d0b26af",
-    measurementId: "G-0PPXDFKYVZ"
-  };
-
-  const db = getFirestore(initializeApp(firebaseConfig));
-  const t = (k) => window.t(k);
-  const form = document.getElementById("commentForm");
-  const nameInput = document.getElementById("visitorName");
-  const commentInput = document.getElementById("visitorComment");
-  const postButton = document.getElementById("postCommentButton");
-  const status = document.getElementById("commentStatus");
-  const list = document.getElementById("commentsList");
-  const commentsRef = collection(db, "comments");
-  let lastSnapshot = null;
-
-  // ---------- Comment filter: automatically blocks sensitive comments ----------
-  // Add more words to these lists any time you see something that should be blocked.
-  const BAD_WORDS = [
-    // English
-    "fuck","shit","bitch","asshole","bastard","dick","pussy","whore","slut","nigger","cunt",
-    // Kiswahili / local
-    "malaya","kuma","mavi","mjinga","kumamayako","matako","shoga"
-  ];
-  const SPAM_PHRASES = ["free money","click here","whatsapp me","loan","forex","bitcoin","casino","betting","sugar daddy"];
-
-  function normalize(s) {
-    return s.toLowerCase()
-      .replace(/[@4]/g, "a").replace(/[1!|]/g, "i").replace(/0/g, "o").replace(/[$5]/g, "s").replace(/3/g, "e")
-      .replace(/[^a-z\s]/g, "")          // remove dots, dashes, symbols (f.u.c.k -> fuck)
-      .replace(/(.)\1{2,}/g, "$1$1");    // loooool -> lool
-  }
-  function blockReason(name, text) {
-    const all = name + " " + text;
-    const clean = normalize(all);
-    const squashed = clean.replace(/\s/g, "");
-    if (BAD_WORDS.some(w => clean.split(/\s+/).includes(w) || (w.length > 4 && squashed.includes(w)))) return "bad";
-    if (/(https?:\/\/|www\.|\.com|\.co\.ke|\.net|\.org|bit\.ly|t\.me)/i.test(all)) return "link";
-    if (/(\+?\d[\s-]?){9,}/.test(all) || /\S+@\S+\.\S+/.test(all)) return "private";
-    if (SPAM_PHRASES.some(p => clean.includes(p))) return "bad";
-    if (text.length > 20 && text === text.toUpperCase() && /[A-Z]/.test(text)) return "caps";
-    if (/(.)\1{9,}/.test(text)) return "caps";
-    return null;
-  }
-  let lastPost = 0;
-  // -----------------------------------------------------------------------------
-
-  form.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const name = nameInput.value.trim();
-    const comment = commentInput.value.trim();
-    if (!name || !comment) { status.textContent = t("c_need"); return; }
-
-    // Filter + rate limit
-    if (Date.now() - lastPost < 30000) { status.textContent = t("c_wait"); return; }
-    const reason = blockReason(name, comment);
-    if (reason) { status.textContent = t("c_block_" + reason); return; }
-    lastPost = Date.now();
-
-    postButton.disabled = true;
-    status.textContent = t("c_posting");
-    try {
-      await addDoc(commentsRef, { name: name, comment: comment, createdAt: serverTimestamp() });
-      form.reset();
-      status.textContent = t("c_ok");
-    } catch (error) {
-      console.error("Error posting comment:", error);
-      status.textContent = t("c_fail");
-      lastPost = 0; // let them retry right away if posting failed
-    } finally {
-      postButton.disabled = false;
-    }
-  });
-
-  function renderComments(snapshot) {
-    list.replaceChildren();
-    if (snapshot.empty) {
-      const p = document.createElement("p");
-      p.textContent = t("c_none");
-      list.appendChild(p);
-      return;
-    }
-    snapshot.forEach((docSnap) => {
-      const data = docSnap.data();
-      const card = document.createElement("article");
-      card.style.cssText = "background:white;padding:16px;margin:12px 0;border-radius:12px;box-shadow:0 2px 8px #00000010;";
-      const name = document.createElement("h4");
-      name.textContent = data.name || t("c_visitor");
-      name.style.margin = "0 0 8px";
-      const message = document.createElement("p");
-      message.textContent = data.comment || "";
-      message.style.whiteSpace = "pre-wrap";
-      message.style.overflowWrap = "anywhere";
-      card.append(name, message);
-      if (data.createdAt) {
-        const date = document.createElement("small");
-        date.textContent = data.createdAt.toDate().toLocaleString();
-        date.style.color = "#526579";
-        card.appendChild(date);
-      }
-      list.appendChild(card);
-    });
-  }
-
-  onSnapshot(query(commentsRef, orderBy("createdAt", "desc")), (snapshot) => {
-    lastSnapshot = snapshot;
-    renderComments(snapshot);
-  }, (error) => {
-    console.error("Error loading comments:", error);
-    list.textContent = t("c_err");
-  });
-
-  // Re-render comments (e.g. the "Visitor" / "No comments" text) when the language is switched
-  document.getElementById("langBtn").addEventListener("click", () => {
-    if (lastSnapshot) renderComments(lastSnapshot);
-    status.textContent = "";
-  });
-</script>
+<script type="module"> ... </script>
 
 </body>
 </html>
