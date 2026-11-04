@@ -74,7 +74,8 @@
   #gallery { background:#fff; }
   .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:12px; max-width:1000px; margin:24px auto 0; }
   .grid button { padding:0; border:0; border-radius:12px; overflow:hidden; cursor:pointer; background:#dfe8f1; aspect-ratio:4/3; }
-  .grid img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .3s; }
+  .grid { justify-content:center; }
+  .grid img { width:100%; height:100%; object-fit:cover; object-position:center 15%; display:block; transition:transform .3s; }
   .grid button:hover img { transform:scale(1.06); }
   #lightbox { position:fixed; inset:0; background:#000d; display:none; align-items:center; justify-content:center; z-index:50; padding:20px; }
   #lightbox.open { display:flex; }
@@ -297,6 +298,7 @@
   ];
   // Photos: upload the files next to index.html (or in a "gallery" folder) and list them here.
   var GALLERY = [
+    { src: "gallery/singing1.jpg", cap: "Collins Letting singing" },
     // { src: "gallery/church1.jpg", cap: "Church visit" },
     // { src: "gallery/recording1.jpg", cap: "Recording day" }
   ];
