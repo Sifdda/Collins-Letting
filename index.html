@@ -517,7 +517,7 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
   import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
-  import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyA3rqKiUrn1Tr7gvo03VMGYEzJgG2QGqtQ",
@@ -565,7 +565,20 @@
       alert("Sign-in problem: " + (e.code || e.message || "unknown error") + "\n\nSend this message to your web helper.");
     });
   });
-  onAuthStateChanged(auth, showAuthState);
+  // Some accounts have no display name saved. Fill it in from the Google profile (or the email) so comments always have a verified name.
+  onAuthStateChanged(auth, async (user) => {
+    if (user && !user.displayName) {
+      try {
+        const g = (user.providerData || []).find((p) => p.displayName);
+        const fallback = (g && g.displayName) || (user.email ? user.email.split("@")[0] : "");
+        if (fallback) {
+          await updateProfile(user, { displayName: fallback });
+          await user.getIdToken(true); // refresh so the saved name is in the sign-in token
+        }
+      } catch (e) { console.error("Could not save name:", e); }
+    }
+    showAuthState(auth.currentUser);
+  });
 
   // ---------- Comment filter: automatically blocks sensitive comments ----------
   // Add more words to these lists any time you see something that should be blocked.
