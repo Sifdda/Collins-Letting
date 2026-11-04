@@ -11,31 +11,51 @@
 <meta property="og:title" content="Amazing Grace — Work with Christ">
 <meta property="og:description" content="Gospel music ministry by Collins Letting. Watch, pray, and support.">
 <meta property="og:image" content="https://collinsletting.com/photo.jpg">
+
+<!-- Fonts: Playfair Display (headings) + Poppins (body) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
-  :root { --navy:#08233e; --blue:#103e67; --gold:#f1c56b; --teal:#145b70; --cream:#f4f8fc; --ink:#102b48; --green:#0b7048; }
+  :root { --navy:#08233e; --blue:#103e67; --gold:#f1c56b; --teal:#145b70; --cream:#f4f8fc; --ink:#102b48; --green:#0b7048;
+          --head:"Playfair Display",Georgia,"Times New Roman",serif; --body:"Poppins",Arial,Helvetica,sans-serif; }
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body { margin:0; font-family:Georgia,"Times New Roman",serif; color:var(--ink); background:var(--cream); line-height:1.7; }
+  html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+  body { margin:0; font-family:var(--body); color:var(--ink); background:var(--cream); line-height:1.75; }
+  h1, h2, h3, h4 { font-family:var(--head); line-height:1.25; }
   a { overflow-wrap:anywhere; }
   a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible { outline:3px solid var(--gold); outline-offset:2px; }
 
-  header { background:var(--navy); color:#fff; padding:20px 7%; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; }
-  header h2 { margin:0; color:var(--gold); }
-  header p { margin:4px 0 0; }
+  /* ---- Header (sticky) + mobile menu ---- */
+  header { position:sticky; top:0; z-index:40; background:var(--navy); color:#fff; padding:12px 6%; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; box-shadow:0 2px 12px #0006; }
+  header h2 { margin:0; color:var(--gold); font-size:22px; }
+  header p { margin:0; font-size:14px; }
   nav { display:flex; flex-wrap:wrap; align-items:center; }
-  nav a { color:var(--gold); text-decoration:none; margin:8px; font-family:Arial,sans-serif; }
+  nav a { color:var(--gold); text-decoration:none; margin:8px; font-family:var(--body); font-weight:500; font-size:15px; }
   nav a:hover { text-decoration:underline; }
-  #langBtn { background:transparent; color:var(--gold); border:2px solid var(--gold); border-radius:20px; padding:6px 14px; cursor:pointer; font:bold 14px Arial,sans-serif; margin-left:8px; }
+  #langBtn { background:transparent; color:var(--gold); border:2px solid var(--gold); border-radius:20px; padding:6px 14px; cursor:pointer; font:600 14px var(--body); margin-left:8px; }
+
+  #menuBtn { display:none; background:transparent; color:var(--gold); border:2px solid var(--gold); border-radius:8px; width:46px; height:42px; font-size:24px; line-height:1; cursor:pointer; }
+  @media (max-width:860px) {
+    #menuBtn { display:block; }
+    nav { display:none; width:100%; flex-direction:column; align-items:stretch; text-align:center; padding-bottom:8px; }
+    nav.open { display:flex; }
+    nav a { margin:0; padding:13px; border-top:1px solid #ffffff22; font-size:17px; }
+    #langBtn { margin:12px auto 4px; }
+  }
 
   section { padding:55px 8%; text-align:center; }
   section h2 { margin-top:0; }
   .wave { line-height:0; margin-top:-1px; }
   .wave svg { display:block; width:100%; height:50px; }
-  .hero { background:linear-gradient(135deg,var(--navy),var(--teal)); color:#fff; padding:80px 8%; }
-  .hero h1 { font-size:clamp(40px,7vw,72px); margin:0; }
-  .hero h2 { font-size:28px; color:var(--gold); }
-  .hero p { font-size:19px; max-width:650px; margin:16px auto; }
-  .button { display:inline-block; background:var(--gold); color:var(--navy); padding:14px 26px; margin:8px; border-radius:30px; text-decoration:none; font-weight:bold; font-family:Arial,sans-serif; border:0; cursor:pointer; font-size:16px; }
+
+  /* ---- Hero with photo ---- */
+  .hero { background:linear-gradient(rgba(8,35,62,.80), rgba(20,91,112,.74)), url("photo.jpg") center/cover no-repeat, linear-gradient(135deg,var(--navy),var(--teal)); color:#fff; padding:100px 8%; }
+  .hero h1 { font-size:clamp(42px,8vw,80px); margin:0; font-weight:800; text-shadow:0 3px 18px #0008; }
+  .hero h2 { font-size:clamp(20px,3.5vw,28px); color:var(--gold); font-weight:500; font-style:italic; }
+  .hero p { font-size:18px; max-width:650px; margin:16px auto; }
+  .button { display:inline-block; background:var(--gold); color:var(--navy); padding:14px 26px; margin:8px; border-radius:30px; text-decoration:none; font-weight:600; font-family:var(--body); border:0; cursor:pointer; font-size:16px; }
   .button.alt { background:transparent; color:#fff; border:2px solid var(--gold); }
 
   .about { background:#fff; }
@@ -49,7 +69,7 @@
   .thumb { background:#fff; border:2px solid transparent; border-radius:12px; padding:8px; cursor:pointer; box-shadow:0 3px 10px #0000000f; font:inherit; color:inherit; transition:transform .2s; }
   .thumb:hover, .thumb.on { transform:translateY(-3px); border-color:var(--gold); }
   .thumb img { width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:8px; display:block; }
-  .thumb span { display:block; margin-top:6px; font:14px Arial,sans-serif; }
+  .thumb span { display:block; margin-top:6px; font:500 14px var(--body); }
 
   #gallery { background:#fff; }
   .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:12px; max-width:1000px; margin:24px auto 0; }
@@ -62,7 +82,7 @@
   #lightbox button { position:absolute; top:14px; right:20px; background:var(--gold); border:0; border-radius:50%; width:42px; height:42px; font-size:22px; cursor:pointer; }
 
   #events { background:var(--cream); }
-  .event { display:flex; gap:16px; align-items:center; max-width:640px; margin:14px auto; background:#fff; border-radius:14px; padding:14px 18px; text-align:left; box-shadow:0 3px 10px #0000000f; font-family:Arial,sans-serif; }
+  .event { display:flex; gap:16px; align-items:center; max-width:640px; margin:14px auto; background:#fff; border-radius:14px; padding:14px 18px; text-align:left; box-shadow:0 3px 10px #0000000f; font-family:var(--body); }
   .event .date { flex:none; background:var(--navy); color:var(--gold); border-radius:10px; padding:8px 12px; text-align:center; min-width:64px; font-weight:bold; line-height:1.2; }
   .event .date b { display:block; font-size:24px; color:#fff; }
   .event h4 { margin:0; }
@@ -72,21 +92,21 @@
   .quotes { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px; max-width:980px; margin:24px auto 0; }
   .quote { background:var(--cream); border-left:5px solid var(--gold); border-radius:12px; padding:18px; text-align:left; }
   .quote p { margin:0 0 10px; font-style:italic; }
-  .quote small { font-family:Arial,sans-serif; color:#526579; }
+  .quote small { font-family:var(--body); color:#526579; }
 
   .dark { background:linear-gradient(135deg,var(--navy),var(--teal)); color:#fff; }
   .dark h2 { color:var(--gold); }
   .dark p { max-width:750px; margin-left:auto; margin-right:auto; }
-  .card { background:#fff; color:var(--ink); max-width:480px; margin:28px auto; padding:26px 20px; border-radius:18px; font-family:Arial,sans-serif; }
+  .card { background:#fff; color:var(--ink); max-width:480px; margin:28px auto; padding:26px 20px; border-radius:18px; font-family:var(--body); }
   .card h3 { margin-top:0; }
   .big { font-size:28px; font-weight:bold; color:var(--green); margin:8px 0; }
   .call { background:var(--green); color:#fff; }
   .wa { background:#25D366; color:#fff; }
 
   #comments { background:var(--cream); }
-  form { max-width:600px; margin:25px auto; text-align:left; font-family:Arial,sans-serif; }
+  form { max-width:600px; margin:25px auto; text-align:left; font-family:var(--body); }
   input, textarea { width:100%; padding:12px; margin:8px 0 16px; border:1px solid #9fb3c8; border-radius:8px; font:inherit; }
-  form button { background:var(--blue); color:#fff; padding:13px 24px; border:0; border-radius:25px; cursor:pointer; width:100%; font-size:16px; }
+  form button { background:var(--blue); color:#fff; padding:13px 24px; border:0; border-radius:25px; cursor:pointer; width:100%; font-size:16px; font-family:var(--body); }
   form button:disabled { opacity:.6; }
   #commentsList { max-width:700px; margin:20px auto; text-align:left; }
 
@@ -111,7 +131,8 @@
     <h2>Amazing Grace ✝</h2>
     <p data-t="tag">Work with Christ</p>
   </div>
-  <nav aria-label="Main">
+  <button id="menuBtn" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mainNav">☰</button>
+  <nav id="mainNav" aria-label="Main">
     <a href="#home" data-t="n_home">Home</a>
     <a href="#about" data-t="n_about">About</a>
     <a href="#music" data-t="n_music">Music</a>
@@ -366,6 +387,19 @@
     try { localStorage.setItem("lang", lang); } catch (e) {}
     applyLang();
   };
+
+  /* ---- Mobile menu ---- */
+  (function () {
+    var btn = document.getElementById("menuBtn"), nav = document.getElementById("mainNav");
+    function setMenu(open) {
+      nav.classList.toggle("open", open);
+      btn.setAttribute("aria-expanded", open);
+      btn.textContent = open ? "✕" : "☰";
+    }
+    btn.onclick = function () { setMenu(!nav.classList.contains("open")); };
+    nav.querySelectorAll("a").forEach(function (a) { a.addEventListener("click", function () { setMenu(false); }); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") setMenu(false); });
+  })();
 
   /* ---- Music ---- */
   function setVideo(i) {
