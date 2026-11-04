@@ -236,6 +236,7 @@
   <form id="commentForm">
     <button type="button" id="signInBtn">Sign in with Google to comment</button>
     <p id="signedInAs" style="display:none;margin:0 0 12px;"></p>
+    <button type="button" id="signOutBtn" style="display:none;width:auto;background:transparent;color:#103e67;padding:0;margin:0 0 14px;text-decoration:underline;font-size:14px;">Sign out</button>
     <input type="text" id="visitorName" readonly style="display:none">
     <label for="visitorComment" data-t="co_msg">Your Comment</label>
     <textarea id="visitorComment" data-tp="co_msg_ph" placeholder="Write your comment here..." maxlength="1000" rows="5" required style="resize:vertical;"></textarea>
@@ -517,7 +518,7 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
   import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
-  import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, updateProfile, signOut } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyA3rqKiUrn1Tr7gvo03VMGYEzJgG2QGqtQ",
@@ -541,6 +542,7 @@
   const list = document.getElementById("commentsList");
   const signInBtn = document.getElementById("signInBtn");
   const signedInAs = document.getElementById("signedInAs");
+  const signOutBtn = document.getElementById("signOutBtn");
   const commentsRef = collection(db, "comments");
   let lastSnapshot = null;
 
@@ -549,12 +551,14 @@
     signInBtn.textContent = t("c_signin_btn");
     if (user) {
       nameInput.value = user.displayName || "";
-      signedInAs.textContent = t("c_signed_as") + " " + (user.displayName || "");
+      signedInAs.textContent = t("c_signed_as") + " " + (user.displayName || user.email || "");
       signedInAs.style.display = "block";
+      signOutBtn.style.display = "inline";
       signInBtn.style.display = "none";
     } else {
       nameInput.value = "";
       signedInAs.style.display = "none";
+      signOutBtn.style.display = "none";
       signInBtn.style.display = "block";
     }
   }
@@ -566,19 +570,26 @@
     });
   });
   // Some accounts have no display name saved. Fill it in from the Google profile (or the email) so comments always have a verified name.
-  onAuthStateChanged(auth, async (user) => {
-    if (user && !user.displayName) {
-      try {
-        const g = (user.providerData || []).find((p) => p.displayName);
-        const fallback = (g && g.displayName) || (user.email ? user.email.split("@")[0] : "");
-        if (fallback) {
-          await updateProfile(user, { displayName: fallback });
-          await user.getIdToken(true); // refresh so the saved name is in the sign-in token
-        }
-      } catch (e) { console.error("Could not save name:", e); }
+  async function ensureName(user) {
+    if (!user || user.displayName) return true;
+    try {
+      const g = (user.providerData || []).find((p) => p.displayName);
+      const fallback = (g && g.displayName) || (user.email ? user.email.split("@")[0] : "");
+      if (!fallback) return false;
+      await updateProfile(user, { displayName: fallback });
+      await user.getIdToken(true); // refresh so the saved name is in the sign-in token
+      return true;
+    } catch (e) {
+      console.error("Could not save name:", e);
+      alert("Name problem: " + (e.code || e.message));
+      return false;
     }
+  }
+  onAuthStateChanged(auth, async (user) => {
+    await ensureName(user);
     showAuthState(auth.currentUser);
   });
+  signOutBtn.addEventListener("click", () => signOut(auth));
 
   // ---------- Comment filter: automatically blocks sensitive comments ----------
   // Add more words to these lists any time you see something that should be blocked.
@@ -615,7 +626,9 @@
     event.preventDefault();
     const user = auth.currentUser;
     if (!user) { status.textContent = t("c_signin"); return; }
-    const name = (user.displayName || "").trim();
+    await ensureName(user);
+    showAuthState(auth.currentUser);
+    const name = (auth.currentUser.displayName || "").trim();
     const comment = commentInput.value.trim();
     if (!name || !comment) { status.textContent = t("c_need"); return; }
 
@@ -627,12 +640,12 @@
     postButton.disabled = true;
     status.textContent = t("c_posting");
     try {
-      await addDoc(commentsRef, { name: name, comment: comment, uid: user.uid, createdAt: serverTimestamp() });
+      await addDoc(commentsRef, { name: name, comment: comment, uid: auth.currentUser.uid, createdAt: serverTimestamp() });
       commentInput.value = "";
       status.textContent = t("c_ok");
     } catch (error) {
       console.error("Error posting comment:", error);
-      status.textContent = t("c_fail");
+      status.textContent = t("c_fail") + " (" + (error.code || "error") + ")";
       lastPost = 0;
     } finally {
       postButton.disabled = false;
