@@ -514,7 +514,162 @@
   document.getElementById("langBtn").addEventListener("click", showDailyPrayer);
 </script>
 
-<script type="module"> ... </script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyA3rqKiUrn1Tr7gvo03VMGYEzJgG2QqtQ",
+    authDomain: "amazinggracecomments-e68ea.firebaseapp.com",
+    projectId: "amazinggracecomments-e68ea",
+    storageBucket: "amazinggracecomments-e68ea.firebasestorage.app",
+    messagingSenderId: "494112674814",
+    appId: "1:494112674814:web:c31db229b6ed459d0b26af",
+    measurementId: "G-0PPXDFKYVZ"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const auth = getAuth(app);
+  const t = (k) => window.t(k);
+  const form = document.getElementById("commentForm");
+  const nameInput = document.getElementById("visitorName");
+  const commentInput = document.getElementById("visitorComment");
+  const postButton = document.getElementById("postCommentButton");
+  const status = document.getElementById("commentStatus");
+  const list = document.getElementById("commentsList");
+  const signInBtn = document.getElementById("signInBtn");
+  const signedInAs = document.getElementById("signedInAs");
+  const commentsRef = collection(db, "comments");
+  let lastSnapshot = null;
+
+  // ---------- Google sign-in: the name comes from the Google account ----------
+  function showAuthState(user) {
+    signInBtn.textContent = t("c_signin_btn");
+    if (user) {
+      nameInput.value = user.displayName || "";
+      signedInAs.textContent = t("c_signed_as") + " " + (user.displayName || "");
+      signedInAs.style.display = "block";
+      signInBtn.style.display = "none";
+    } else {
+      nameInput.value = "";
+      signedInAs.style.display = "none";
+      signInBtn.style.display = "block";
+    }
+  }
+  signInBtn.addEventListener("click", () => {
+    signInWithPopup(auth, new GoogleAuthProvider()).catch((e) => {
+      console.error("Sign-in error:", e);
+      status.textContent = t("c_fail") + " (" + (e.code || "error") + ")";
+    });
+  });
+  onAuthStateChanged(auth, showAuthState);
+
+  // ---------- Comment filter: automatically blocks sensitive comments ----------
+  // Add more words to these lists any time you see something that should be blocked.
+  const BAD_WORDS = [
+    // English
+    "fuck","shit","bitch","asshole","bastard","dick","pussy","whore","slut","nigger","cunt",
+    // Kiswahili / local
+    "malaya","kuma","mavi","mjinga","kumamayako","matako","shoga"
+  ];
+  const SPAM_PHRASES = ["free money","click here","whatsapp me","loan","forex","bitcoin","casino","betting","sugar daddy"];
+
+  function normalize(s) {
+    return s.toLowerCase()
+      .replace(/[@4]/g, "a").replace(/[1!|]/g, "i").replace(/0/g, "o").replace(/[$5]/g, "s").replace(/3/g, "e")
+      .replace(/[^a-z\s]/g, "")
+      .replace(/(.)\1{2,}/g, "$1$1");
+  }
+  // Only the comment text is checked now (the name is verified by Google)
+  function blockReason(text) {
+    const clean = normalize(text);
+    const squashed = clean.replace(/\s/g, "");
+    if (BAD_WORDS.some(w => clean.split(/\s+/).includes(w) || (w.length > 4 && squashed.includes(w)))) return "bad";
+    if (/(https?:\/\/|www\.|\.com|\.co\.ke|\.net|\.org|bit\.ly|t\.me)/i.test(text)) return "link";
+    if (/(\+?\d[\s-]?){9,}/.test(text) || /\S+@\S+\.\S+/.test(text)) return "private";
+    if (SPAM_PHRASES.some(p => clean.includes(p))) return "bad";
+    if (text.length > 20 && text === text.toUpperCase() && /[A-Z]/.test(text)) return "caps";
+    if (/(.)\1{9,}/.test(text)) return "caps";
+    return null;
+  }
+  let lastPost = 0;
+  // -----------------------------------------------------------------------------
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const user = auth.currentUser;
+    if (!user) { status.textContent = t("c_signin"); return; }
+    const name = (user.displayName || "").trim();
+    const comment = commentInput.value.trim();
+    if (!name || !comment) { status.textContent = t("c_need"); return; }
+
+    if (Date.now() - lastPost < 30000) { status.textContent = t("c_wait"); return; }
+    const reason = blockReason(comment);
+    if (reason) { status.textContent = t("c_block_" + reason); return; }
+    lastPost = Date.now();
+
+    postButton.disabled = true;
+    status.textContent = t("c_posting");
+    try {
+      await addDoc(commentsRef, { name: name, comment: comment, uid: user.uid, createdAt: serverTimestamp() });
+      commentInput.value = "";
+      status.textContent = t("c_ok");
+    } catch (error) {
+      console.error("Error posting comment:", error);
+      status.textContent = t("c_fail");
+      lastPost = 0;
+    } finally {
+      postButton.disabled = false;
+    }
+  });
+
+  function renderComments(snapshot) {
+    list.replaceChildren();
+    if (snapshot.empty) {
+      const p = document.createElement("p");
+      p.textContent = t("c_none");
+      list.appendChild(p);
+      return;
+    }
+    snapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+      const card = document.createElement("article");
+      card.style.cssText = "background:white;padding:16px;margin:12px 0;border-radius:12px;box-shadow:0 2px 8px #00000010;";
+      const name = document.createElement("h4");
+      name.textContent = data.name || t("c_visitor");
+      name.style.margin = "0 0 8px";
+      const message = document.createElement("p");
+      message.textContent = data.comment || "";
+      message.style.whiteSpace = "pre-wrap";
+      message.style.overflowWrap = "anywhere";
+      card.append(name, message);
+      if (data.createdAt) {
+        const date = document.createElement("small");
+        date.textContent = data.createdAt.toDate().toLocaleString();
+        date.style.color = "#526579";
+        card.appendChild(date);
+      }
+      list.appendChild(card);
+    });
+  }
+
+  onSnapshot(query(commentsRef, orderBy("createdAt", "desc")), (snapshot) => {
+    lastSnapshot = snapshot;
+    renderComments(snapshot);
+  }, (error) => {
+    console.error("Error loading comments:", error);
+    list.textContent = t("c_err");
+  });
+
+  // Re-render when the language is switched
+  document.getElementById("langBtn").addEventListener("click", () => {
+    if (lastSnapshot) renderComments(lastSnapshot);
+    status.textContent = "";
+    showAuthState(auth.currentUser);
+  });
+</script>
 
 </body>
 </html>
