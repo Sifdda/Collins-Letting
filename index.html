@@ -562,6 +562,7 @@
     signInWithPopup(auth, new GoogleAuthProvider()).catch((e) => {
       console.error("Sign-in error:", e);
       status.textContent = t("c_fail") + " (" + (e.code || "error") + ")";
+      alert("Sign-in problem: " + (e.code || e.message || "unknown error") + "\n\nSend this message to your web helper.");
     });
   });
   onAuthStateChanged(auth, showAuthState);
